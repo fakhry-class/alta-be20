@@ -31,7 +31,7 @@ like_count int,
 created_at datetime default current_timestamp,
 updated_at datetime default current_timestamp,
 deleted_at datetime,
-constraint fk_tweet_account FOREIGN KEY (account_id) REFERENCES accounts(id)
+constraint fk_tweet_account FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE retweets(
@@ -84,6 +84,11 @@ drop table dummys_detail;
 
 -- menghapus database
 drop database db_twitter;
+
+-- ALTER FK
+ALTER TABLE db_twitter.tweets DROP FOREIGN KEY fk_tweet_account;
+ALTER TABLE db_twitter.tweets ADD CONSTRAINT fk_tweet_account FOREIGN KEY (account_id) REFERENCES db_twitter.accounts(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 
 
