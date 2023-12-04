@@ -36,9 +36,9 @@ VALUES ("reza", "reza rahadian", "lorem ipsum dolor sit amet", "2023/12/06", "jo
 
 -- insert ke table tweets 
 INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_count)
-VALUES ("X0001", 1, "halo ini tweet pertama", 0, 0, 0);
+VALUES ("X0004", 10, "halo ini tweet pertama", 0, 0, 0);
 INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_count)
-VALUES ("X0002", 1, "halo ini tweet kedua", 0, 0, 0);
+VALUES ("X0002", 4, "halo ini tweet kedua", 0, 0, 0);
 
 INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_count)
 VALUES ("X0003", 100, "halo ini tweet seratus", 0, 0, 0);
@@ -48,7 +48,6 @@ VALUES ("abc0003", 2, "halo ini tweet dua satu", 0, 0, 0);
 
 INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_count)
 VALUES ("abc0003", 3, "halo ini tweet tiga satu", 0, 0, 0);
-
 
 
 
@@ -127,6 +126,88 @@ SELECT * from accounts WHERE username LIKE "%di%" order by id DESC;
 SELECT * from accounts LIMIT 2;
 SELECT * from accounts WHERE username LIKE "%di%" order by id DESC LIMIT 1;
 SELECT * from accounts WHERE username LIKE "%di%" order by id ASC LIMIT 1;
+
+
+-- JOIN
+
+select * FROM tweets t ;
+SELECT * from accounts;
+
+-- insert account id nya null
+INSERT INTO tweets (id, tweet, comment_count, retweet_count, like_count)
+VALUES ("abc0004", "halo ini kosongan", 0, 0, 0);
+
+-- INNER JOIN
+SELECT tweets.id, tweets.account_id , tweets.tweet, accounts.name , accounts.username, tweets.created_at FROM tweets
+INNER JOIN accounts ON tweets.account_id = accounts.id ;
+
+-- memberikan alias ke tabel dan kolom
+SELECT t.id, t.account_id , t.tweet, a.name as sender_name , a.username, t.created_at FROM tweets t
+INNER JOIN accounts a ON t.account_id = a.id ;
+
+SELECT tweets.id, tweets.account_id , tweets.tweet, tweets.comment_count, accounts.name , accounts.username, tweets.created_at FROM tweets
+INNER JOIN accounts ON tweets.account_id = accounts.id 
+WHERE tweets.comment_count < 20;
+
+-- LEFT JOIN
+SELECT tweets.id, tweets.account_id , tweets.tweet, accounts.name , accounts.username, tweets.created_at FROM tweets
+LEFT JOIN accounts ON tweets.account_id = accounts.id ;
+
+SELECT tweets.id, tweets.account_id , tweets.tweet, accounts.name , accounts.username, tweets.created_at FROM accounts
+LEFT JOIN tweets ON tweets.account_id = accounts.id ;
+
+-- RIGHT JOIN
+SELECT tweets.id, tweets.account_id , tweets.tweet, accounts.name , accounts.username, tweets.created_at FROM tweets
+RIGHT JOIN accounts ON tweets.account_id = accounts.id ;
+
+
+SELECT * FROM retweets r ;
+select * FROM tweets t ;
+SELECT * from accounts;
+
+INSERT INTO retweets (account_id, tweet_id)
+VALUES (4,"abc0003"),
+(8,"X0001"),
+(9,"X0001"),
+(8,"X0002");
+
+-- JOIN lebih dari 2 table
+
+-- menampilkan data tweet, beserta data nama yang nge tweet
+SELECT 
+tweets.id , tweets.tweet, tweets.account_id as sender_id, 
+accounts.username , accounts.name
+from tweets
+INNER JOIN accounts ON tweets.account_id = accounts.id;
+
+-- menampilkan data tweet, beserta data nama yang nge tweet, dan account_id yang nge retweet
+SELECT 
+tweets.id , tweets.tweet, tweets.account_id as sender_id, 
+accounts.username , accounts.name, 
+retweets.account_id as retweet_account_id
+from tweets
+INNER JOIN accounts ON tweets.account_id = accounts.id 
+INNER JOIN retweets ON tweets.id = retweets.tweet_id;
+
+-- menampilkan data tweet, beserta data nama yang nge tweet, dan account_id dan nama yang nge retweet
+SELECT 
+tweets.id , tweets.tweet, tweets.account_id as sender_id, 
+accounts.username , accounts.name, 
+retweets.account_id as retweet_account_id, ar.name as retweet_name
+from tweets
+INNER JOIN accounts ON tweets.account_id = accounts.id 
+INNER JOIN retweets ON tweets.id = retweets.tweet_id 
+INNER JOIN accounts ar ON retweets.account_id = ar.id ;
+
+
+-- UNION
+select id from accounts 
+UNION
+select id from tweets ;
+
+-- distinct
+SELECT * from accounts ;
+SELECT DISTINCT location from accounts a ;
 
 
 
