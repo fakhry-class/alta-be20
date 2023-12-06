@@ -37,6 +37,7 @@ func main() {
 	// db.SetMaxOpenConns(10)
 	// db.SetMaxIdleConns(10)
 
+	// cek apakah sudah bisa connect ke db
 	pingErr := db.Ping()
 	if pingErr != nil {
 		log.Fatal("err ping conenction: ", pingErr)
