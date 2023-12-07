@@ -296,7 +296,7 @@ LIMIT 1;
 SELECT account_id from tweets t WHERE account_id is not null;
 SELECT DISTINCT account_id from tweets t WHERE account_id is not null;
 
--- b. menampilkan data akun
+-- b. menampilkan data akunc
 SELECT  * from accounts a ;
 
 -- menampilkan data akun yang pernah ngetweet
@@ -345,7 +345,7 @@ DROP TRIGGER db_twitter.delete_all_data_tweet;
 
 
 
-
+SELECT id, username, name, bio, join_date, location, email, password, created_at FROM accounts;
 
 
 
