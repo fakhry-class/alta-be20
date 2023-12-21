@@ -47,7 +47,7 @@ INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_co
 VALUES ("abc0003", 2, "halo ini tweet dua satu", 0, 0, 0);
 
 INSERT INTO tweets (id, account_id, tweet, comment_count, retweet_count, like_count)
-VALUES ("abc0003", 3, "halo ini tweet tiga satu", 0, 0, 0);
+VALUES ("abc0005", 3, "halo ini tweet tiga satu", 0, 0, 0);
 
 
 

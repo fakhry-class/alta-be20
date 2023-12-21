@@ -13,9 +13,9 @@ type User struct {
 }
 
 type article struct {
-	ID      int
-	Title   string
-	Content string
+	ID      int    `json:"id" form:"id"`
+	Title   string `json:"title" form:"title"`
+	Content string `json:"content" form:"content"`
 }
 
 func main() {
@@ -28,9 +28,15 @@ func main() {
 
 	e.GET("/hello", HelloController)
 	e.GET("/users", GetUsersController)
-	e.GET("/articles", GetArticlesController)
+
 	// url param
 	e.GET("/users/:user_id", GetUserByIdController)
+	// query param
+	e.GET("/articles", GetArticlesController)
+	//bind
+	e.POST("/articles", CreateArticleController)
+	// form value
+	e.POST("/users", CreateUserController)
 
 	// start server and port
 	e.Logger.Fatal(e.Start(":8080"))
@@ -52,6 +58,9 @@ func GetUsersController(c echo.Context) error {
 }
 
 func GetArticlesController(c echo.Context) error {
+	qPage := c.QueryParam("page")
+	qSearch := c.QueryParam("search")
+
 	// dummy data
 	var data = []article{
 		{1, "lorem", "lorem"},
@@ -62,6 +71,8 @@ func GetArticlesController(c echo.Context) error {
 		"status":  "success",
 		"message": "success read data",
 		"data":    data,
+		"page":    qPage,
+		"search":  qSearch,
 	})
 }
 
@@ -82,5 +93,41 @@ func GetUserByIdController(c echo.Context) error {
 		"message":   "success read data",
 		"param":     idParam,
 		"param_int": idInt,
+	})
+}
+
+// request body via BINDING
+func CreateArticleController(c echo.Context) error {
+	newArticle := article{}
+	// newArticle := new(article)
+	errBind := c.Bind(&newArticle)
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, map[string]any{
+			"status":  "error",
+			"message": "error bind data" + errBind.Error(),
+		})
+	}
+
+	// simpan ke db
+	//
+	return c.JSON(http.StatusCreated, map[string]any{
+		"status":  "success",
+		"message": "success add data",
+		"result":  newArticle,
+	})
+}
+
+func CreateUserController(c echo.Context) error {
+	newUser := User{}
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	newUser.Name = name
+	newUser.Email = email
+	// c.Request().FormFile("image")
+
+	return c.JSON(http.StatusCreated, map[string]any{
+		"status":  "success",
+		"message": "success add data",
+		"result":  newUser,
 	})
 }
