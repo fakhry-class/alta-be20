@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"fakhry/clean-arch/app/middlewares"
 	"fakhry/clean-arch/features/user/data"
 	_userHandler "fakhry/clean-arch/features/user/handler"
 	_userService "fakhry/clean-arch/features/user/service"
@@ -17,6 +18,6 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	userHandlerAPI := _userHandler.New(userService)
 	// define routes/ endpoint
 	e.POST("/users", userHandlerAPI.CreateUser)
-	e.GET("/users", userHandlerAPI.GetAllUsers)
-	// e.PUT("/users/:user_id", controllers.UpdateUserByIdController)
+	e.GET("/users", userHandlerAPI.GetAllUsers, middlewares.JWTMiddleware())
+	e.PUT("/users/:user_id", userHandlerAPI.Update)
 }

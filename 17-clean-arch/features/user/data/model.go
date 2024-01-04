@@ -1,6 +1,10 @@
 package data
 
-import "gorm.io/gorm"
+import (
+	"fakhry/clean-arch/features/user"
+
+	"gorm.io/gorm"
+)
 
 // struct user gorm model
 type User struct {
@@ -15,4 +19,14 @@ type User struct {
 	Address     string
 	PhoneNumber string
 	Role        string
+}
+
+func CoreToModel(input user.Core) User {
+	return User{
+		Name:        input.Name,
+		Email:       input.Email,
+		Address:     input.Address,
+		PhoneNumber: input.PhoneNumber,
+		Role:        input.Role,
+	}
 }

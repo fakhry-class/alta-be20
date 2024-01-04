@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 /*
@@ -22,6 +23,7 @@ func main() {
 	config.InitialMigration()
 
 	e := echo.New()
+	e.Pre(middleware.RemoveTrailingSlash())
 	routes.InitRoute(e)
 
 	//start server and port

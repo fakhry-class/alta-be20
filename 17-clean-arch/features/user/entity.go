@@ -18,10 +18,12 @@ type Core struct {
 type UserDataInterface interface {
 	Insert(input Core) error
 	SelectAll() ([]Core, error)
+	Update(id int, input Core) error
 }
 
 // interface untuk Service Layer
 type UserServiceInterface interface {
 	Create(input Core) error
 	GetAll() ([]Core, error)
+	Update(id int, input Core) error
 }

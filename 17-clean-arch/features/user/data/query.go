@@ -66,3 +66,18 @@ func (repo *userQuery) SelectAll() ([]user.Core, error) {
 
 	return usersDataCore, nil
 }
+
+// Update implements user.UserDataInterface.
+func (repo *userQuery) Update(id int, input user.Core) error {
+	dataGorm := CoreToModel(input)
+	tx := repo.db.Model(&User{}).Where("id = ?", id).Updates(dataGorm)
+	if tx.Error != nil {
+		// fmt.Println("err:", tx.Error)
+		return tx.Error
+	}
+
+	if tx.RowsAffected == 0 {
+		return errors.New("error record not found ")
+	}
+	return nil
+}

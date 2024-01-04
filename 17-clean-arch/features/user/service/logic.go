@@ -33,3 +33,15 @@ func (service *userService) GetAll() ([]user.Core, error) {
 	results, err := service.userData.SelectAll()
 	return results, err
 }
+
+// Update implements user.UserServiceInterface.
+func (service *userService) Update(id int, input user.Core) error {
+	//validasi
+	if id <= 0 {
+		return errors.New("invalid id")
+	}
+	//validasi inputan
+	// ...
+	err := service.userData.Update(id, input)
+	return err
+}

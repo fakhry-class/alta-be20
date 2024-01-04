@@ -10,6 +10,11 @@ type userQueryRaw struct {
 	db *gorm.DB
 }
 
+// Update implements user.UserDataInterface.
+func (*userQueryRaw) Update(id int, input user.Core) error {
+	panic("unimplemented")
+}
+
 func NewRaw(db *gorm.DB) user.UserDataInterface {
 	return &userQueryRaw{
 		db: db,
