@@ -1,13 +1,17 @@
 package data
 
 import (
+	"database/sql"
 	"fakhry/clean-arch/features/user"
-
-	"gorm.io/gorm"
 )
 
 type userQueryRaw struct {
-	db *gorm.DB
+	db *sql.DB
+}
+
+// Login implements user.UserDataInterface.
+func (*userQueryRaw) Login(email string, password string) (data *user.Core, err error) {
+	panic("unimplemented")
 }
 
 // Update implements user.UserDataInterface.
@@ -15,7 +19,7 @@ func (*userQueryRaw) Update(id int, input user.Core) error {
 	panic("unimplemented")
 }
 
-func NewRaw(db *gorm.DB) user.UserDataInterface {
+func NewRaw(db *sql.DB) user.UserDataInterface {
 	return &userQueryRaw{
 		db: db,
 	}
